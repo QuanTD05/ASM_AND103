@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <!-- Ảnh đại diện -->
+    <ImageView
+        android:id="@+id/imgAvatatr"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <!-- Thông tin xe -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên xe"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvNamSX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Năm SX"/>
+
+        <TextView
+            android:id="@+id/tvHang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hãng xe"/>
+
+        <TextView
+            android:id="@+id/tvGia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá"/>
+    </LinearLayout>
+
+    <!-- Nút Xóa và Sửa -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_icon"
+            android:layout_marginEnd="20dp"
+            />
+        <ImageButton
+
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/delete_icon"
+            />
+    </LinearLayout>
+
+</LinearLayout>

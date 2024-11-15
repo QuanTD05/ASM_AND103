@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "788678797781",
+    "project_id": "asm-and103-3e9cf",
+    "storage_bucket": "asm-and103-3e9cf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788678797781:android:6e00b85162b0b58c8d755c",
+        "android_client_info": {
+          "package_name": "fpoly.md19304.asm_and103"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSZEnocDudNU91831VTjaGjdDCcw1oIbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
