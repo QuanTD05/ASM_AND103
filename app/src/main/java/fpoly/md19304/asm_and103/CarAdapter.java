@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +38,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         this.carModelList = carModelList;
         this.apiService = RetrofitClient.getClient().create(APIService.class);
     }
+    public void updateData(List<CarModel> newCarList) {
+        this.carModelList = new ArrayList<>(newCarList);
+        notifyDataSetChanged();
+    }
+
+
 
     @NonNull
     @Override

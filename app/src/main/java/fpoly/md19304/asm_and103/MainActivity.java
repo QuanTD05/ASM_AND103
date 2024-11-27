@@ -231,6 +231,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -280,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
     private CircleIndicator circleIndicator;
     private int currentPage = 0;
     private Handler handler = new Handler();
-
+    private EditText edSearch;
 
 
     @Override
@@ -492,5 +494,40 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Lỗi khi thêm xe", Toast.LENGTH_SHORT).show();
             }
         });
+        edSearch = findViewById(R.id.ed_search);
+        edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không cần xử lý trước khi văn bản thay đổi
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCars(s.toString()); // Gọi hàm lọc danh sách
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Không cần xử lý sau khi văn bản thay đổi
+            }
+        });
+
+        // Các đoạn code khác trong onCreate()
+    }
+
+    // Hàm lọc danh sách xe
+    private void filterCars(String query) {
+        List<CarModel> filteredList = new ArrayList<>();
+        for (CarModel car : listCarModel) {
+            if (car.getTen().toLowerCase().contains(query.toLowerCase()) ||
+                    car.getHang().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(car);
+            }
+        }
+
+        if (carAdapter != null) {
+            carAdapter.updateData(filteredList); // Gọi hàm cập nhật trong adapter
+        }
     }
 }
+

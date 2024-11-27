@@ -30,7 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
 
-        android:src="@drawable/ic_search"
+        android:src="@drawable/ic_cart"
         android:contentDescription="Giỏ hàng"
       />
     <androidx.core.widget.NestedScrollView

@@ -52,6 +52,7 @@
 
 package fpoly.md19304.asm_and103;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -68,7 +69,7 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    String DOMAIN = "http://192.168.32.101:3000";
+    String DOMAIN = "http://10.24.41.87:3000";
 
     // Lấy danh sách xe
     @GET("/api/cars/list")
@@ -104,5 +105,10 @@ public interface APIService {
     // Cập nhật thông tin xe theo tên
     @PUT("/api/cars/update/{id}")
     Call<Void> updateCar(@Path("id") String carId, @Body CarModel updatedCar);
+    @GET("/api/cart/items")
+    Call<ArrayList<Cart>> getCartItems();
+    @POST("/api/cart/confirmPayment")
+    Call<Void> confirmPayment(@Body List<Cart> cartItems);
+
 }
 
