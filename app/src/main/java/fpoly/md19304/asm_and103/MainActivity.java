@@ -222,12 +222,14 @@
 
 package fpoly.md19304.asm_and103;
 
+import static java.security.AccessController.getContext;
 import static fpoly.md19304.asm_and103.APIService.DOMAIN;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -240,6 +242,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -250,6 +255,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -260,15 +266,20 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private ViewPager bannerViewPager;
+    private BannerAdapter bannerAdapter;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri selectedImageUri;
 
-    ListView lvMain;
+    RecyclerView lvMain;
     List<CarModel> listCarModel;
     CarAdapter carAdapter;
     APIService apiService;
     private ImageView selectedImageView;
+    private CircleIndicator circleIndicator;
+    private int currentPage = 0;
+    private Handler handler = new Handler();
 
 
 
@@ -276,6 +287,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bannerViewPager =findViewById(R.id.banner_viewpager);
+        circleIndicator = findViewById(R.id.circleIndicator);
+        ImageView giohang = findViewById(R.id.btn_cart);
+        giohang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        List<Integer> listPhoto = new ArrayList<>();
+        listPhoto.add(R.drawable.banner);
+        listPhoto.add(R.drawable.tintuc1);
+        listPhoto.add(R.drawable.tintuc3);
+        listPhoto.add(R.drawable.tintuc4);
+
+        bannerAdapter = new BannerAdapter(MainActivity.this, listPhoto);
+        bannerViewPager.setAdapter(bannerAdapter);
+        circleIndicator.setViewPager(bannerViewPager);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (bannerAdapter.getCount() != 0) {
+                    currentPage = (currentPage + 1) % bannerAdapter.getCount();
+                    bannerViewPager.setCurrentItem(currentPage, true);
+                }
+                handler.postDelayed(this, 3000);
+            }
+        }, 3000);
 
         lvMain = findViewById(R.id.listviewMain);
         FloatingActionButton btnAddCar = findViewById(R.id.btn_add);
@@ -299,20 +342,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadCarList() {
+
         Call<List<CarModel>> call = apiService.getCars();
         call.enqueue(new Callback<List<CarModel>>() {
             @Override
             public void onResponse(Call<List<CarModel>> call, Response<List<CarModel>> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
                     listCarModel = response.body();
-                    carAdapter = new CarAdapter(getApplicationContext(), listCarModel);
+                    if (listCarModel.isEmpty()) {
+                        Toast.makeText(MainActivity.this, "No cars available.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    carAdapter = new CarAdapter(MainActivity.this, listCarModel);
+                    lvMain.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                     lvMain.setAdapter(carAdapter);
+                } else {
+                    Log.e("Main", "Response error: " + response.code());
+                    Toast.makeText(MainActivity.this, "Failed to load cars.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<CarModel>> call, Throwable t) {
-                Log.e("Main", t.getMessage());
+
+                Toast.makeText(MainActivity.this, "Failed to load cars. Please try again.", Toast.LENGTH_SHORT).show();
+                Log.e("Main", "Error: " + t.getMessage());
             }
         });
     }

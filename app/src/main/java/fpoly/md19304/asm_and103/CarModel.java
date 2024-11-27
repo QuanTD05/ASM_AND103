@@ -1,6 +1,8 @@
 package fpoly.md19304.asm_and103;
 
-public class CarModel {
+import java.io.Serializable;
+
+public class CarModel implements Serializable {
 
     private String _id;
     private String ten;
@@ -11,11 +13,23 @@ public class CarModel {
 
     private double gia;
     private String anh;
+    private String mota;
+    private int soluong;
 
-    public CarModel(String _id, String ten, int namSX, String hang, double gia, String anh) {
+
+    public CarModel(String _id, String ten, int namSX, String hang, double gia, String anh, String mota) {
         this._id = _id;
         this.ten = ten;
         this.namSX = namSX;
+        this.hang = hang;
+        this.gia = gia;
+        this.anh = anh;
+        this.mota = mota;
+    }
+
+    public CarModel(String _id, String ten, String hang, double gia, String anh) {
+        this._id = _id;
+        this.ten = ten;
         this.hang = hang;
         this.gia = gia;
         this.anh = anh;
@@ -27,6 +41,30 @@ public class CarModel {
         this.hang = hang;
         this.gia = gia;
         this.anh = anh;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public int getSoluong() {
+        return soluong;
+    }
+
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
+
+    public String getMota() {
+        return mota;
+    }
+
+    public void setMota(String mota) {
+        this.mota = mota;
     }
 
     public String getId() {

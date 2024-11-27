@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class EditCarActivity extends AppCompatActivity {
 
-    private EditText etName, etNamSX, etHang, etGia, etAnh;
+    private EditText etName, etNamSX, etHang, etGia, etAnh, etmota;
     private Button btnSave;
     private APIService apiService;
     private String carId;
@@ -38,6 +38,7 @@ public class EditCarActivity extends AppCompatActivity {
         etHang = findViewById(R.id.etHang);
         etGia = findViewById(R.id.etGia);
         etAnh = findViewById(R.id.etAnh); // Thêm trường cho link ảnh
+        etmota = findViewById(R.id.etmota);
         btnSave = findViewById(R.id.btnSave);
 
         apiService = RetrofitClient.getClient().create(APIService.class);
@@ -76,6 +77,7 @@ public class EditCarActivity extends AppCompatActivity {
                     etHang.setText(car.getHang());
                     etGia.setText(String.valueOf(car.getGia()));
                     etAnh.setText(car.getAnh()); // Hiển thị đường link ảnh hiện tại
+                    etmota.setText(car.getMota());
                 } else {
                     Toast.makeText(EditCarActivity.this, "Lỗi tải thông tin xe", Toast.LENGTH_SHORT).show();
                 }
@@ -94,8 +96,8 @@ public class EditCarActivity extends AppCompatActivity {
         String hang = etHang.getText().toString();
         double gia = Double.parseDouble(etGia.getText().toString());
         String anh = etAnh.getText().toString();
-
-        CarModel updatedCar = new CarModel(carId, name, namSX, hang, gia, anh);
+        String mota = etmota.getText().toString();
+        CarModel updatedCar = new CarModel(carId, name, namSX, hang, gia, anh,mota);
 
         // Kiểm tra JSON gửi lên server
         Log.d("EditCarActivity", "JSON to send: " + new Gson().toJson(updatedCar));

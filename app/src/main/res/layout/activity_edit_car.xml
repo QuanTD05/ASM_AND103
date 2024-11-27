@@ -44,6 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="Đường link ảnh" />
+    <EditText
+        android:id="@+id/etmota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Mô tả" />
 
     <Button
         android:id="@+id/btnSave"

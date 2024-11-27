@@ -68,7 +68,7 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    String DOMAIN = "http://172.16.0.2:3000";
+    String DOMAIN = "http://192.168.32.101:3000";
 
     // Lấy danh sách xe
     @GET("/api/cars/list")
