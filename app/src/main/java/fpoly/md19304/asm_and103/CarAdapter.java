@@ -104,6 +104,12 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             bundle.putString("hang", car.getHang()); // Tương tự, xác minh thuộc tính này.
             bundle.putDouble("gia", car.getGia());
             bundle.putString("anh", car.getAnh());
+            intent.putExtra("car_id", car.getId());
+            intent.putExtra("ten", car.getTen());
+            intent.putExtra("hang", car.getHang());
+            intent.putExtra("namSX", car.getNamSX());
+            intent.putExtra("gia", car.getGia());
+            intent.putExtra("anh", car.getAnh());
             intent.putExtras(bundle);
             context.startActivity(intent);
         });

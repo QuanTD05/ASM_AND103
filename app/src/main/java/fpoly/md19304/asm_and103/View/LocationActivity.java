@@ -3,9 +3,14 @@ package fpoly.md19304.asm_and103.View;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,6 +33,9 @@ import retrofit2.Response;
 
 public class LocationActivity extends AppCompatActivity {
     private ActivityLocationBinding binding;
+    private TextView tvName, tvHang, tvNamSX, tvGia, tvmota;
+    private ImageView imgAvatar;
+    private Toolbar toolbarchitiet;
     private GHNRequest request;
     private GHNServices ghnServices;
     private String _id, WardCode;
@@ -39,6 +47,8 @@ public class LocationActivity extends AppCompatActivity {
 
     private double gia;
     private String anh;
+    private String carName;
+    private double carGia;
     private int image, DistrictID, ProvinceID ;
     private Adapter_Item_Province_Select_GHN adapter_item_province_select_ghn;
     private Adapter_Item_District_Select_GHN adapter_item_district_select_ghn;
@@ -70,6 +80,49 @@ public class LocationActivity extends AppCompatActivity {
         binding.spProvince.setSelection(1);
         binding.spDistrict.setSelection(1);
         binding.spWard.setSelection(1);
+
+        tvName = findViewById(R.id.tvName);
+        tvHang = findViewById(R.id.tvHang);
+        tvNamSX = findViewById(R.id.tvNamSX);
+        tvGia = findViewById(R.id.tvGia);
+        imgAvatar = findViewById(R.id.imgAvatatr);
+
+        // Lấy thông tin từ Intent
+        carName = getIntent().getStringExtra("ten");
+        String carHang = getIntent().getStringExtra("hang");
+        int carNamSX = getIntent().getIntExtra("namSX", 0);
+        carGia = getIntent().getDoubleExtra("gia", 0.0);
+        String carAnh = getIntent().getStringExtra("anh");
+        String carMota = getIntent().getStringExtra("mota");
+
+        // Cập nhật UI
+        if (carName != null) {
+            tvName.setText(carName);
+        }
+
+        if (carHang != null) {
+            tvHang.setText(carHang);
+        }
+
+        tvNamSX.setText(String.valueOf(carNamSX));
+        tvGia.setText(String.format("%,.0f VND", carGia));
+
+        if (carAnh != null && !carAnh.isEmpty()) {
+            Picasso.get().load(carAnh).into(imgAvatar);
+        } else {
+            imgAvatar.setImageResource(R.drawable.baseline_broken_image_24);
+        }
+
+        if (carMota != null) {
+            tvmota.setText(carMota);
+        }
+
+        toolbarchitiet = findViewById(R.id.toolbarchitietsp);
+        toolbarchitiet.setTitle("Thanh toán ");
+        // Cấu hình toolbar
+        setSupportActionBar(toolbarchitiet);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbarchitiet.setNavigationOnClickListener(view -> finish());
 
 
     }

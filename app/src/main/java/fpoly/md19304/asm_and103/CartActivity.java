@@ -1,4 +1,5 @@
 package fpoly.md19304.asm_and103;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -8,11 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCart;
     private TextView tvTotalPrice;
     private Button btnCheckout;
-    private CartAdapter cartAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +25,30 @@ public class CartActivity extends AppCompatActivity {
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         btnCheckout = findViewById(R.id.btnCheckout);
 
-        cartAdapter = new CartAdapter(this, CartManager.getInstance().getCartItems());
+        // Lấy danh sách sản phẩm từ CartManager
+        ArrayList<Cart> cartItems = CartManager.getInstance().getCartItems();
+
+        // Gán adapter cho RecyclerView
+        CartAdapter adapter = new CartAdapter(this, cartItems);
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewCart.setAdapter(cartAdapter);
+        recyclerViewCart.setAdapter(adapter);
 
-        updateTotalPrice();
+        // Tính tổng tiền
+        double totalPrice = 0;
+        for (Cart item : cartItems) {
+            totalPrice += item.getPrice() * item.getQuantity();
+        }
+        tvTotalPrice.setText(String.format("Tổng tiền: %,.0f VND", totalPrice));
 
-        btnCheckout.setOnClickListener(v -> {
-            // Thêm logic thanh toán
-            Toast.makeText(this, "Chức năng thanh toán đang được phát triển", Toast.LENGTH_SHORT).show();
+        // Xử lý nút thanh toán
+        btnCheckout.setOnClickListener(view -> {
+            if (cartItems.isEmpty()) {
+                Toast.makeText(CartActivity.this, "Giỏ hàng trống!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(CartActivity.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
+                CartManager.getInstance().clearCart(); // Xóa giỏ hàng sau khi thanh toán
+                finish();
+            }
         });
-    }
-
-    private void updateTotalPrice() {
-        tvTotalPrice.setText(String.format("Tổng tiền: %.2f VND", CartManager.getInstance().getTotalPrice()));
     }
 }

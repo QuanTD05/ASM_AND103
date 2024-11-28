@@ -1,46 +1,25 @@
 package fpoly.md19304.asm_and103;
 
-
 public class Cart {
-    private String _id;
     private String name;
+  // URL của ảnh sản phẩm
     private int quantity;
     private double price;
-    private String anh;
+    private String imageUrl;
 
-    public Cart(String name, int quantity, double price, String anh) {
+    public Cart(String name, int quantity, double price, String imageUrl) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
-        this.anh = anh;
-    }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getAnh() {
-        return anh;
-    }
-
-    public void setAnh(String anh) {
-        this.anh = anh;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public int getQuantity() {

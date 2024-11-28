@@ -1,22 +1,24 @@
 package fpoly.md19304.asm_and103;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private Context context;
-    private List<CarModel> cartItems;
+    private ArrayList<Cart> cartItems;
 
-    public CartAdapter(Context context, List<CarModel> cartItems) {
+    public CartAdapter(Context context, ArrayList<Cart> cartItems) {
         this.context = context;
         this.cartItems = cartItems;
     }
@@ -30,18 +32,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        CarModel item = cartItems.get(position);
-        holder.tvName.setText(item.getTen());
-        holder.tvPrice.setText(String.format("Giá: %.2f VND", item.getGia()));
-        holder.tvQuantity.setText(String.format("Số lượng: %d", item.getSoluong()));
-        Picasso.get().load(item.getAnh()).into(holder.ivProductImage);
+        Cart item = cartItems.get(position);
 
-        holder.btnRemove.setOnClickListener(v -> {
-            CartManager.getInstance().removeFromCart(item.getId());
-            cartItems.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, cartItems.size());
-        });
+        holder.tvCartItemName.setText(item.getName());
+        holder.tvCartItemQuantity.setText("Số lượng: " + item.getQuantity());
+        holder.tvCartItemPrice.setText(String.format("Giá: %,.0f VND", item.getPrice()));
+
+        Picasso.get()
+                .load(item.getImageUrl())
+                .placeholder(R.drawable.baseline_broken_image_24)
+                .into(holder.imgCartItem);
     }
 
     @Override
@@ -49,18 +49,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartItems.size();
     }
 
-    static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvPrice, tvQuantity;
-        ImageView ivProductImage;
-        ImageButton btnRemove;
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
+        ImageView imgCartItem;
+        TextView tvCartItemName, tvCartItemQuantity, tvCartItemPrice;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvQuantity = itemView.findViewById(R.id.tvQuantity);
-            ivProductImage = itemView.findViewById(R.id.ivProductImage);
-            btnRemove = itemView.findViewById(R.id.btnRemove);
+            imgCartItem = itemView.findViewById(R.id.imgCartItem);
+            tvCartItemName = itemView.findViewById(R.id.tvCartItemName);
+            tvCartItemQuantity = itemView.findViewById(R.id.tvCartItemQuantity);
+            tvCartItemPrice = itemView.findViewById(R.id.tvCartItemPrice);
         }
     }
 }

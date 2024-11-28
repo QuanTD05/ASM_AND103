@@ -52,6 +52,13 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="#FFC107"
         android:text="Chọn Ảnh" />
+    <EditText
+        android:id="@+id/etmota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Mô tả" />
+
     <Button
         android:id="@+id/btnSaveCar"
         android:layout_width="match_parent"

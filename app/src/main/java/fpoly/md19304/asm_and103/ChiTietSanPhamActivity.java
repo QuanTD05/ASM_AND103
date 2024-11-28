@@ -18,34 +18,24 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 public class ChiTietSanPhamActivity extends AppCompatActivity {
     private TextView tvName, tvHang, tvNamSX, tvGia, tvmota;
     private ImageView imgAvatar;
-    Toolbar toolbarchitiet;
-    Spinner spinner;
+    private Toolbar toolbarchitiet;
+    private Spinner spinner;
     private Button btnAddToCart;
+
+    private String carName;
+    private double carGia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chi_tiet_san_pham);
-        toolbarchitiet = findViewById(R.id.toolbarchitietsp);
-        setSupportActionBar(toolbarchitiet);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarchitiet.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        spinner = findViewById(R.id.spinnerchitietsp);
-        Integer[] quantityOptions = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        ArrayAdapter<Integer> quantityAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, quantityOptions);
-        spinner.setAdapter(quantityAdapter);
 
+        // Ánh xạ các view
+        toolbarchitiet = findViewById(R.id.toolbarchitietsp);
+        spinner = findViewById(R.id.spinnerchitietsp);
         tvName = findViewById(R.id.tvName);
         tvHang = findViewById(R.id.tvHang);
         tvNamSX = findViewById(R.id.tvNamSX);
@@ -54,38 +44,22 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         tvmota = findViewById(R.id.txtmotachitietsp);
         btnAddToCart = findViewById(R.id.btnthemgiohang);
 
+        // Cấu hình toolbar
+        setSupportActionBar(toolbarchitiet);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbarchitiet.setNavigationOnClickListener(view -> finish());
 
-        // Nhận thông tin sản phẩm từ Intent
-        CarModel car = (CarModel) getIntent().getSerializableExtra("thongtinsanpham");
-
-        if (car != null) {
-            tvName.setText(car.getTen());
-            tvGia.setText(String.format("Giá: %.2f VND", car.getGia()));
-            // Giả định bạn có thêm thuộc tính mô tả (description)
-            tvHang.setText(car.getHang());
-
-            btnAddToCart.setOnClickListener(v -> {
-                CarModel cartItem = new CarModel(
-                        car.getId(),
-                        car.getTen(),
-                        car.getHang(),
-                        car.getGia(),
-                        car.getAnh()
-                );
-                CartManager.getInstance().addToCart(cartItem);
-                Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-
-
-
+        // Gán số lượng vào Spinner
+        Integer[] quantityOptions = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        ArrayAdapter<Integer> quantityAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, quantityOptions);
+        spinner.setAdapter(quantityAdapter);
 
         // Lấy thông tin từ Intent
-        String carName = getIntent().getStringExtra("ten");
+        carName = getIntent().getStringExtra("ten");
         String carHang = getIntent().getStringExtra("hang");
         int carNamSX = getIntent().getIntExtra("namSX", 0);
-        double carGia = getIntent().getDoubleExtra("gia", 0.0);
+        carGia = getIntent().getDoubleExtra("gia", 0.0);
         String carAnh = getIntent().getStringExtra("anh");
         String carMota = getIntent().getStringExtra("mota");
 
@@ -106,8 +80,29 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         } else {
             imgAvatar.setImageResource(R.drawable.baseline_broken_image_24);
         }
-        if (carHang != null) {
+
+        if (carMota != null) {
             tvmota.setText(carMota);
         }
+
+        // Xử lý sự kiện thêm vào giỏ hàng
+        btnAddToCart.setOnClickListener(view -> {
+            int quantity = (int) spinner.getSelectedItem();
+            Cart item = new Cart(carName, quantity, carGia,carAnh);
+            CartManager.getInstance().addItem(item);
+            Toast.makeText(ChiTietSanPhamActivity.this, "Đã thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.btn_cart) {
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
