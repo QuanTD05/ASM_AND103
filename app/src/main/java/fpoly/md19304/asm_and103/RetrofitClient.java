@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     // Địa chỉ của API
-    private static final String BASE_URL = "http://172.16.0.2:3000";
+    private static final String BASE_URL = "http://192.168.32.101:3000";
 
     private static Retrofit retrofit = null;
 
@@ -16,6 +16,15 @@ public class RetrofitClient {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)  // URL của API
                     .addConverterFactory(GsonConverterFactory.create())  // Chuyển đổi JSON sang đối tượng Java
+                    .build();
+        }
+        return retrofit;
+    }
+    public static Retrofit getClient1(String baseUrl) {
+        if (retrofit == null || !retrofit.baseUrl().toString().equals(baseUrl)) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;

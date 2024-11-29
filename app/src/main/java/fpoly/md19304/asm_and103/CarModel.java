@@ -27,20 +27,13 @@ public class CarModel implements Serializable {
         this.mota = mota;
     }
 
-    public CarModel(String _id, String ten, String hang, double gia, String anh) {
-        this._id = _id;
-        this.ten = ten;
-        this.hang = hang;
-        this.gia = gia;
-        this.anh = anh;
-    }
-
-    public CarModel(String ten, int namSX, String hang, double gia, String anh) {
+    public CarModel(String ten, int namSX, String hang, double gia, String anh, String mota) {
         this.ten = ten;
         this.namSX = namSX;
         this.hang = hang;
         this.gia = gia;
         this.anh = anh;
+        this.mota = mota;
     }
 
     public String get_id() {

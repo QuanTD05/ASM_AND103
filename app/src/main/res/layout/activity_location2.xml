@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    tools:context=".View.LocationActivity">
+    tools:context=".View.Location2Activity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarchitietsp"
         app:title="Chi tiết sản phẩm"
@@ -15,97 +15,51 @@
         app:itemIconTint="#4BA8EB"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
-    <ImageView
-        android:id="@+id/imgAvatatr"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="3dp"
-        android:src="@mipmap/ic_launcher" />
 
-    <!-- Product Details -->
-    <LinearLayout
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Họ và tên"
+        android:textColor="#000"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_marginTop="5dp">
 
-        <!-- Product Name -->
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sofa SÖDERHAMN"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:hint="Vui lòng nhập họ và tên" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Năm sản xuất: "
-                android:textColor="#000000"
-                android:textSize="16sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Số điện thoại:"
+        android:textColor="#000"
+        android:textSize="16dp"
+        android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvNamSX"
-                android:text="2023"
-                android:textColor="#F47936"
-                android:textSize="18sp" />
-        </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
-
-        <!-- Color Selection -->
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/hv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:hint="Vui lòng nhập số điện thoại" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hãng: "
-                android:textColor="#000000"
-                android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvHang"
-                android:text="Huyndai"
-                android:textColor="#F47936"
-                android:textSize="18sp" />
-        </LinearLayout>
-        <!-- Color Selection -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giá: "
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvGia"
-                android:text="6.300.000 VND"
-                android:textColor="#F47936"
-                android:textSize="18sp" />
-        </LinearLayout>
 
 
         <LinearLayout
@@ -213,7 +167,7 @@
         </LinearLayout>
 
 
-    </LinearLayout>
+
 
 
 </LinearLayout>

@@ -69,7 +69,7 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    String DOMAIN = "http://10.24.41.87:3000";
+    String DOMAIN = "http://192.168.32.101:3000";
 
     // Lấy danh sách xe
     @GET("/api/cars/list")
@@ -87,7 +87,8 @@ public interface APIService {
             @Part("namSX") RequestBody namSX,
             @Part("hang") RequestBody hang,
             @Part("gia") RequestBody gia,
-            @Part MultipartBody.Part anh
+            @Part MultipartBody.Part anh,
+            @Part("mota") RequestBody mota
     );
     @Multipart
     @POST("upload_image")
@@ -105,10 +106,17 @@ public interface APIService {
     // Cập nhật thông tin xe theo tên
     @PUT("/api/cars/update/{id}")
     Call<Void> updateCar(@Path("id") String carId, @Body CarModel updatedCar);
-    @GET("/api/cart/items")
-    Call<ArrayList<Cart>> getCartItems();
-    @POST("/api/cart/confirmPayment")
-    Call<Void> confirmPayment(@Body List<Cart> cartItems);
 
+    @POST("/api/cart/add")
+    Call<Void> addToCart(@Body CartItem cartItem);
+    @GET("/api/cart/xe")
+    Call<List<CartItem>> getCart();
+
+    @GET("/api/cart/total")
+    Call<TotaPriceResponse> getTotalPrice();
+
+    // Xóa xe theo ID
+    @DELETE("/api/cart/xoa/{id}")
+    Call<Void> deleteCart(@Path("id") String cartId);
 }
 

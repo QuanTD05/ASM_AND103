@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.squareup.picasso.Picasso;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -27,29 +25,19 @@ import fpoly.md19304.asm_and103.Models.Ward;
 import fpoly.md19304.asm_and103.R;
 import fpoly.md19304.asm_and103.Serives.GHNRequest;
 import fpoly.md19304.asm_and103.Serives.GHNServices;
+import fpoly.md19304.asm_and103.databinding.ActivityLocation2Binding;
 import fpoly.md19304.asm_and103.databinding.ActivityLocationBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LocationActivity extends AppCompatActivity {
-    private ActivityLocationBinding binding;
-    private TextView tvName, tvHang, tvNamSX, tvGia, tvmota;
-    private ImageView imgAvatar;
+public class Location2Activity extends AppCompatActivity {
+    private ActivityLocation2Binding binding;
     private Toolbar toolbarchitiet;
     private GHNRequest request;
     private GHNServices ghnServices;
     private String _id, WardCode;
-    private String ten;
 
-    private int namSX;
-
-    private String hang;
-
-    private double gia;
-    private String anh;
-    private String carName;
-    private double carGia;
     private int image, DistrictID, ProvinceID ;
     private Adapter_Item_Province_Select_GHN adapter_item_province_select_ghn;
     private Adapter_Item_District_Select_GHN adapter_item_district_select_ghn;
@@ -57,21 +45,12 @@ public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLocationBinding.inflate(getLayoutInflater());
+        binding = ActivityLocation2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         request = new GHNRequest();
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            _id = bundle.getString("Id");
 
-            ten = bundle.getString("ten");
-            namSX = bundle.getInt("namSX");
-            hang = bundle.getString("hang");
-            gia = bundle.getDouble("gia");
-            image = bundle.getInt("anh");
-        }
 
         request.callAPI().getListProvince().enqueue(responseProvince);
         binding.spProvince.setOnItemSelectedListener(onItemSelectedListener);
@@ -82,50 +61,31 @@ public class LocationActivity extends AppCompatActivity {
         binding.spDistrict.setSelection(1);
         binding.spWard.setSelection(1);
 
-        tvName = findViewById(R.id.tvName);
-        tvHang = findViewById(R.id.tvHang);
-        tvNamSX = findViewById(R.id.tvNamSX);
-        tvGia = findViewById(R.id.tvGia);
-        imgAvatar = findViewById(R.id.imgAvatatr);
+        TextInputEditText hoten = findViewById(R.id.cv);
+        TextInputEditText SDT = findViewById(R.id.hv);
+        String hotenValue = hoten.getText().toString().trim();
+        String SDTValue = SDT.getText().toString().trim();
+        if (hotenValue.isEmpty()) {
+            hoten.setError("Tên không được để trống");
+            return;  // Dừng lại, không tiếp tục xử lý
+        }
+
+        if (SDTValue.isEmpty()) {
+            SDT.setError("Số điện thoại không được để trống");
+            return;  // Dừng lại, không tiếp tục xử lý
+        }
+
 
         Button oder = findViewById(R.id.btn_order);
         oder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LocationActivity.this, "Đăt hàng thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Location2Activity.this, "Đăt hàng thành công", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
 
-        // Lấy thông tin từ Intent
-        carName = getIntent().getStringExtra("ten");
-        String carHang = getIntent().getStringExtra("hang");
-        int carNamSX = getIntent().getIntExtra("namSX", 0);
-        carGia = getIntent().getDoubleExtra("gia", 0.0);
-        String carAnh = getIntent().getStringExtra("anh");
-        String carMota = getIntent().getStringExtra("mota");
 
-        // Cập nhật UI
-        if (carName != null) {
-            tvName.setText(carName);
-        }
-
-        if (carHang != null) {
-            tvHang.setText(carHang);
-        }
-
-        tvNamSX.setText(String.valueOf(carNamSX));
-        tvGia.setText(String.format("%,.0f VND", carGia));
-
-        if (carAnh != null && !carAnh.isEmpty()) {
-            Picasso.get().load(carAnh).into(imgAvatar);
-        } else {
-            imgAvatar.setImageResource(R.drawable.baseline_broken_image_24);
-        }
-
-        if (carMota != null) {
-            tvmota.setText(carMota);
-        }
 
         toolbarchitiet = findViewById(R.id.toolbarchitietsp);
         toolbarchitiet.setTitle("Thanh toán ");
@@ -171,7 +131,7 @@ public class LocationActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call<ResponseGHN<ArrayList<Province>>> call, Throwable t) {
-            Toast.makeText(LocationActivity.this, "Lấy dữ liệu bị lỗi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Location2Activity.this, "Lấy dữ liệu bị lỗi", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -211,7 +171,7 @@ public class LocationActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call<ResponseGHN<ArrayList<Ward>>> call, Throwable t) {
-            Toast.makeText(LocationActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Location2Activity.this, "Lỗi", Toast.LENGTH_SHORT).show();
         }
     };
 

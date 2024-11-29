@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
         EditText etCarPrice = dialogView.findViewById(R.id.etCarPrice);
         ImageView ivSelectedImage = dialogView.findViewById(R.id.ivSelectedImage);
         Button btnSelectImage = dialogView.findViewById(R.id.btnSelectImage);
-
+        EditText etCarMoTa = dialogView.findViewById(R.id.etmota);
         // Mở thư viện khi nhấn nút chọn ảnh
         btnSelectImage.setOnClickListener(v -> openImagePicker());
 
@@ -400,6 +400,7 @@ public class MainActivity extends AppCompatActivity {
             String carYearStr = etCarYear.getText().toString();
             String carBrand = etCarBrand.getText().toString();
             String carPriceStr = etCarPrice.getText().toString();
+            String carMoTa = etCarMoTa.getText().toString();
 
             if (!carName.isEmpty() && !carBrand.isEmpty()) {
                 int carYear = Integer.parseInt(carYearStr);
@@ -411,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
                     if (imageFile != null) {
                         // Sử dụng URL đầy đủ cho ảnh
                         String carImageUrl = DOMAIN + imageFile.getName();
-                        CarModel newCar = new CarModel(carName, carYear, carBrand, carPrice, carImageUrl);
+                        CarModel newCar = new CarModel(carName, carYear, carBrand, carPrice, carImageUrl,carMoTa);
                         addCarToApi(newCar, imageFile);
                     }
                 } else {
@@ -472,8 +473,8 @@ public class MainActivity extends AppCompatActivity {
         MultipartBody.Part anhPart = MultipartBody.Part.createFormData(
                 "anh", imageFile.getName(), RequestBody.create(imageFile, MediaType.parse("image/*"))
         );
-
-        Call<CarModel> call = apiService.addcar(ten, namSX, hang, gia, anhPart);
+        RequestBody mota = RequestBody.create(newCar.getMota(), okhttp3.MultipartBody.FORM);
+        Call<CarModel> call = apiService.addcar(ten, namSX, hang, gia, anhPart,mota);
         call.enqueue(new Callback<CarModel>() {
             @Override
             public void onResponse(Call<CarModel> call, Response<CarModel> response) {
